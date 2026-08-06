@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="800" viewBox="0 0 1600 800">
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#03110c"/>
+      <stop offset="0.45" stop-color="#06131f"/>
+      <stop offset="1" stop-color="#0c0716"/>
+    </linearGradient>
+    <radialGradient id="emerald" cx="0.28" cy="0.32" r="0.65">
+      <stop offset="0" stop-color="#34d399" stop-opacity="0.9"/>
+      <stop offset="0.55" stop-color="#2dd4bf" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#2dd4bf" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="sky" cx="0.72" cy="0.28" r="0.6">
+      <stop offset="0" stop-color="#38bdf8" stop-opacity="0.8"/>
+      <stop offset="0.55" stop-color="#60a5fa" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#60a5fa" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="violet" cx="0.55" cy="0.82" r="0.7">
+      <stop offset="0" stop-color="#a78bfa" stop-opacity="0.75"/>
+      <stop offset="0.6" stop-color="#8b5cf6" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.16"/>
+      <stop offset="0.45" stop-color="#ffffff" stop-opacity="0.03"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.12"/>
+    </linearGradient>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 H 0 V 64" fill="none" stroke="#7dd3fc" stroke-opacity="0.1" stroke-width="1"/>
+    </pattern>
+    <pattern id="dots" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.3" fill="#e2e8f0" fill-opacity="0.14"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="800" fill="url(#base)"/>
+  <rect width="1600" height="800" fill="url(#emerald)"/>
+  <rect width="1600" height="800" fill="url(#sky)"/>
+  <rect width="1600" height="800" fill="url(#violet)"/>
+  <rect width="1600" height="800" fill="url(#grid)"/>
+  <rect width="1600" height="800" fill="url(#dots)"/>
+  <g fill="none" stroke="#e2e8f0" stroke-opacity="0.08" stroke-width="1.5">
+    <path d="M 180 300 h 90 M 270 300 v -70 M 270 230 h 60 M 330 230 v 140"/>
+    <path d="M 1380 500 h 80 M 1460 500 v -90 M 1460 410 h -60 M 1400 410 v 60"/>
+    <circle cx="270" cy="230" r="4" fill="#34d399" fill-opacity="0.5" stroke="none"/>
+    <circle cx="1400" cy="410" r="4" fill="#a78bfa" fill-opacity="0.5" stroke="none"/>
+  </g>
+  <text x="60" y="740" font-family="monospace" font-size="22" fill="#e2e8f0" fill-opacity="0.14">function onChain(markets) { return trustless(); }</text>
+  <text x="1050" y="120" font-family="monospace" font-size="20" fill="#e2e8f0" fill-opacity="0.12">// mechanisms, engineered</text>
+  <rect width="1600" height="800" fill="url(#sheen)"/>
+</svg>

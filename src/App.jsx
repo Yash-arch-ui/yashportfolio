@@ -1,5 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useSpring, useInView } from 'framer-motion'
+import MaskedHeading from './components/MaskedHeading.jsx'
+import WebThreads from './components/WebThreads.jsx'
 import {
   ArrowUpRight,
   GitBranch,
@@ -21,6 +23,9 @@ import {
   GraduationCap,
   Terminal,
   CircleDot,
+  Radar,
+  Ticket,
+  Wallet,
 } from 'lucide-react'
 
 /* ---------------------------------- data ---------------------------------- */
@@ -36,6 +41,26 @@ const socials = [
 
 const projects = [
   {
+    name: 'Vantage',
+    tag: 'Transaction Intelligence · Monad',
+    accent: 'from-violet-400 to-fuchsia-500',
+    icon: Radar,
+    images: ['/projects/vantage.png'],
+    summary:
+      'Vantage is a Monad-native transaction intelligence platform that combines deterministic pre-sign analysis, explainable AI, autonomous contract monitoring, and transparent trust scoring. It helps users make safer execution decisions through continuous monitoring, historical execution intelligence, and evidence-backed recommendations.',
+    points: [
+      'Deterministic pre-sign analysis before execution',
+      'Explainable AI for auditable decision-making',
+      'Autonomous contract monitoring with continuous visibility',
+      'Transparent, evidence-backed trust scoring',
+    ],
+    stack: ['Monad', 'Solidity', 'TypeScript'],
+    links: [
+      { label: 'Website', href: 'https://vantage-two-iota.vercel.app/' },
+      { label: 'GitHub', href: 'https://github.com/Yash-arch-ui/VANTAGE' },
+    ],
+  },
+  {
     name: 'WrapLayer',
     tag: 'Confidential DeFi · Zama FHEVM',
     accent: 'from-sky-400 to-violet-500',
@@ -49,6 +74,10 @@ const projects = [
       'Built end-to-end on Zama FHEVM with encrypted balances (euint256)',
     ],
     stack: ['Solidity', 'Zama FHEVM', 'ERC-7984', 'React', 'Viem'],
+    links: [
+      { label: 'Website', href: 'https://wraplayer.vercel.app/' },
+      { label: 'GitHub', href: 'https://github.com/Yash-arch-ui/WRAPLAYER' },
+    ],
   },
   {
     name: 'Morpho Liquidation Bot',
@@ -65,6 +94,7 @@ const projects = [
       'Minimal setup and dependencies — RPC-only, no extra infra required',
     ],
     stack: ['TypeScript', 'Morpho Blue', 'EVM', 'RPC', 'Liquidations'],
+    links: [{ label: 'GitHub', href: 'https://github.com/Yash-arch-ui/morpho-blue-liquidation-bot' }],
   },
   {
     name: 'HookShield',
@@ -80,6 +110,7 @@ const projects = [
       'Full integration test coverage on the Uniswap V4 hook lifecycle',
     ],
     stack: ['Solidity', 'Uniswap V4', 'Hooks', 'Foundry'],
+    links: [{ label: 'GitHub', href: 'https://github.com/Yash-arch-ui/HookShield' }],
   },
   {
     name: 'Aegis AMM',
@@ -95,21 +126,77 @@ const projects = [
       'Full-stack dApp: swap, deposit and withdraw liquidity with live pool monitoring',
     ],
     stack: ['Sui Move', 'Sui Framework', 'React', 'Vite', 'Tailwind CSS', 'Mysten dApp Kit', 'React Query', 'Slush Wallet'],
+    links: [{ label: 'GitHub', href: 'https://github.com/Yash-arch-ui/Aegis' }],
   },
-]
-
-const earlierProjects = [
+  {
+    name: 'Balancer V3 Router',
+    tag: 'Router Implementation · Balancer V3',
+    accent: 'from-emerald-400 to-sky-400',
+    icon: Layers,
+    images: [],
+    summary:
+      'A router for Balancer V3 — extending the protocol’s swap-routing layer and going deep on its vault-centric architecture.',
+    points: [
+      'Extends the protocol’s swap-routing layer',
+      'Built around Balancer V3’s vault-centric architecture',
+    ],
+    stack: ['Solidity', 'Balancer V3', 'Foundry'],
+    links: [{ label: 'GitHub', href: 'https://github.com/Yash-arch-ui/balancer-v3-monorepo' }],
+  },
   {
     name: 'DiviSafe',
-    image: '/projects/DiviSafe.png',
+    tag: 'Dividend Governance · EVM',
+    accent: 'from-teal-400 to-cyan-500',
+    icon: Shield,
+    images: ['/projects/DiviSafe.png'],
     summary:
       'A decentralized dividend-governance and risk-mitigation platform protecting investors from dividend traps, payout manipulation and opaque corporate practices.',
+    points: [
+      'Protects investors from dividend traps and payout manipulation',
+      'Mitigates risk from opaque corporate practices',
+    ],
+    stack: ['Solidity', 'Ethereum'],
+    links: [{ label: 'GitHub', href: 'https://github.com/Yash-arch-ui/DiviSafe' }],
   },
   {
     name: 'SeatSwap',
-    image: '/projects/SeatSWAP.png',
+    tag: 'Web3 Ticketing · Ethereum',
+    accent: 'from-amber-400 to-orange-500',
+    icon: Ticket,
+    images: ['/projects/SeatSWAP.png'],
     summary:
       'A Web3 ticketing protocol on Ethereum enabling secure ticket issuance, peer-to-peer resale and on-chain verification using NFTs.',
+    points: [
+      'Secure ticket issuance on-chain',
+      'Peer-to-peer resale of tickets',
+      'On-chain verification using NFTs',
+    ],
+    stack: ['Solidity', 'Ethereum', 'NFTs'],
+    links: [{ label: 'GitHub', href: 'https://github.com/Yash-arch-ui/SeatSwap' }],
+  },
+]
+
+const openSource = [
+  {
+    name: 'Morpho AI Liquidation Bot',
+    tag: 'Morpho Blue · Open Source',
+    href: 'https://github.com/morpho-org/morpho-blue-liquidation-bot',
+    summary:
+      'An easily configurable, RPC-based liquidation bot for Morpho Blue — detects liquidatable positions and executes liquidations, with multi-chain support and pluggable pricers for profit evaluation.',
+  },
+  {
+    name: 'Balancer V3 Router',
+    tag: 'Balancer V3 · Open Source',
+    href: 'https://github.com/balancer/balancer-v3-monorepo',
+    summary:
+      'Open source work on the Balancer V3 monorepo — extending the protocol’s swap-routing layer and going deep on its vault-centric architecture.',
+  },
+  {
+    name: 'Plexus',
+    tag: 'BlocSoc IITR · Open Source',
+    href: 'https://github.com/BlocSoc-iitr/Plexus',
+    summary:
+      'Open source contribution to Plexus, a BlocSoc IITR project in active development.',
   },
 ]
 
@@ -152,18 +239,38 @@ export default function App() {
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30 })
 
   return (
-    <div className="relative min-h-screen font-sans">
+    <div className="relative isolate min-h-screen font-sans">
       {/* scroll progress */}
       <motion.div
         className="fixed inset-x-0 top-0 z-50 h-0.5 origin-left bg-gradient-to-r from-emerald-400 via-sky-400 to-violet-400"
         style={{ scaleX: progress }}
       />
 
-      {/* ambient glows */}
-      <div aria-hidden className="pointer-events-none fixed inset-0 z-0">
-        <div className="absolute -top-40 -left-40 h-[480px] w-[480px] rounded-full bg-emerald-500/10 blur-[140px]" />
-        <div className="absolute top-1/3 -right-40 h-[420px] w-[420px] rounded-full bg-sky-500/10 blur-[140px]" />
-        <div className="absolute bottom-0 left-1/3 h-[380px] w-[380px] rounded-full bg-violet-500/10 blur-[140px]" />
+      {/* animated background — WebThreads */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+        <WebThreads
+          color1="#5227FF"
+          color2="#FF9FFC"
+          color3="#FFFFFF"
+          speed={0.2}
+          threadCount={6}
+          frequency={5}
+          spread={0.18}
+          taper={1}
+          position={0.5}
+          fanMode="center"
+          glow={0.02}
+          falloff={0.6}
+          thickness={1.1}
+          brightness={0.6}
+          opacity={1}
+          mirror
+          shimmer={false}
+          grain
+          grainIntensity={0.05}
+          mouseInteraction={false}
+          mouseStrength={0.3}
+        />
         <div
           className="absolute inset-0 opacity-[0.04]"
           style={{
@@ -179,12 +286,11 @@ export default function App() {
         initial={{ y: -24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="fixed inset-x-0 top-0 z-40 border-b border-line bg-ink/70 backdrop-blur-xl"
+        className="fixed inset-x-0 top-0 z-40 border-b border-line bg-ink"
       >
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#top" className="font-mono text-sm font-semibold tracking-tight text-slate-100">
             yash<span className="text-emerald-400">.singh</span>
-            <span className="text-slate-500"> ~/defi</span>
           </a>
           <div className="hidden items-center gap-8 text-sm text-slate-400 sm:flex">
             <a className="transition hover:text-slate-100" href="#work">Work</a>
@@ -206,44 +312,40 @@ export default function App() {
       <main id="top" className="mx-auto max-w-6xl px-6">
         {/* hero */}
         <section className="relative flex min-h-screen flex-col justify-center pt-28 pb-16">
-          {/* background portrait — right corner */}
-          <motion.div
-            aria-hidden="true"
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="pointer-events-none absolute top-24 right-0 -z-10 hidden w-[22rem] select-none sm:block lg:w-[26rem]"
-          >
-            <div className="relative">
-              <div className="absolute -inset-8 rounded-full bg-gradient-to-br from-emerald-400/15 via-sky-400/10 to-violet-400/15 blur-3xl" />
-              <img
-                src="/yash.png"
-                alt=""
-                className="relative w-full rounded-3xl object-cover opacity-35 [mask-image:radial-gradient(ellipse_75%_75%_at_60%_40%,black_45%,transparent_100%)] lg:opacity-45"
-              />
-            </div>
-          </motion.div>
+          <div className="grid items-center gap-12 lg:grid-cols-12">
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="lg:col-span-7"
           >
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-400/10 px-4 py-1.5 font-mono text-xs text-emerald-300">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
               </span>
-              Currently building — a router for Balancer V3
+              Currently building — an account abstraction wallet
             </div>
 
-            <h1 className="mt-8 max-w-4xl text-5xl leading-[1.05] font-extrabold tracking-tight text-slate-100 sm:text-7xl">
-              Engineering the{' '}
-              <span className="bg-gradient-to-r from-emerald-300 via-sky-400 to-violet-400 bg-clip-text text-transparent">
-                mechanisms
-              </span>{' '}
-              behind on-chain markets.
-            </h1>
+            <MaskedHeading
+              tag="h1"
+              text="Engineering the mechanisms."
+              src="/hero-fill.svg"
+              align="left"
+              weight={800}
+              tracking={-0.03}
+              lineHeight={1.05}
+              textScale={0.11}
+              fillScale={1.2}
+              parallax={16}
+              drift={8}
+              brightness={1.1}
+              reveal="rise"
+              trigger="view"
+              stagger={0.07}
+              className="mt-8 max-w-4xl"
+            />
 
             <p className="mt-8 max-w-2xl text-lg leading-relaxed text-slate-400">
               I’m <span className="font-semibold text-slate-200">Yash Singh</span>, a sophomore at{' '}
@@ -270,6 +372,43 @@ export default function App() {
             </div>
           </motion.div>
 
+          {/* portrait — circular avatar */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85, y: 24 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: 0.35, duration: 1, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="order-first flex flex-col items-center gap-6 lg:order-none lg:col-span-5 lg:self-center"
+          >
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+              className="relative"
+            >
+              {/* halo */}
+              <div className="absolute -inset-10 rounded-full bg-gradient-to-br from-emerald-400/25 via-sky-400/15 to-violet-400/25 blur-3xl" />
+              {/* gradient ring around the circular crop */}
+              <div className="relative rounded-full bg-gradient-to-br from-emerald-300 via-sky-400 to-violet-400 p-[3px] shadow-2xl shadow-emerald-400/10">
+                <div className="h-44 w-44 overflow-hidden rounded-full bg-ink sm:h-52 sm:w-52 lg:h-60 lg:w-60">
+                  <img
+                    src="/me-avatar.png"
+                    alt="Yash Singh"
+                    className="h-full w-full object-cover object-center"
+                  />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* status pill */}
+            <div className="flex items-center gap-2 rounded-full border border-emerald-400/25 bg-ink px-4 py-1.5 font-mono text-xs text-emerald-300">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+              </span>
+              Open to work
+            </div>
+          </motion.div>
+          </div>
+
           {/* protocol ribbon */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -292,7 +431,7 @@ export default function App() {
 
         {/* selected work */}
         <section id="work" className="scroll-mt-28 py-20">
-          <SectionHeading kicker="Selected Work" title="Protocol engineering, end to end" icon={Terminal} />
+          <SectionHeading kicker="Selected Work" title="Protocol engineering" icon={Terminal} />
 
           <div className="space-y-8">
             {projects.map((project, i) => {
@@ -302,7 +441,7 @@ export default function App() {
                   <motion.article
                     whileHover={{ y: -4 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-                    className="group overflow-hidden rounded-3xl border border-line bg-panel/80 backdrop-blur"
+                    className="group overflow-hidden rounded-3xl border border-line bg-panel"
                   >
                     <div className={`grid gap-0 ${project.images.length ? 'lg:grid-cols-5' : ''}`}>
                       <div className={`p-8 sm:p-10 ${project.images.length ? 'lg:col-span-3' : ''}`}>
@@ -337,6 +476,26 @@ export default function App() {
                             </span>
                           ))}
                         </div>
+
+                        {project.links?.length > 0 && (
+                          <div className="mt-6 flex flex-wrap items-center gap-3">
+                            {project.links.map((link) => (
+                              <a
+                                key={link.href}
+                                href={link.href}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="group/link inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-4 py-1.5 font-mono text-xs font-medium text-emerald-300 transition hover:border-emerald-400/60 hover:bg-emerald-400/20"
+                              >
+                                {link.label}
+                                <ArrowUpRight
+                                  size={13}
+                                  className="transition group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
+                                />
+                              </a>
+                            ))}
+                          </div>
+                        )}
                       </div>
 
                       {project.images.length > 0 && (
@@ -365,7 +524,7 @@ export default function App() {
               <motion.article
                 whileHover={{ y: -4 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-                className="overflow-hidden rounded-3xl border border-violet-400/20 bg-gradient-to-br from-violet-400/[0.06] via-panel to-emerald-400/[0.04] p-8 backdrop-blur sm:p-10"
+                className="overflow-hidden rounded-3xl border border-violet-400/20 bg-gradient-to-br from-[#140d23] via-panel to-[#04120f] p-8 sm:p-10"
               >
                 <div className="flex items-center gap-3">
                   <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-300 to-emerald-400 text-slate-950">
@@ -414,26 +573,64 @@ export default function App() {
           </div>
         </section>
 
-        {/* open source / in progress */}
+        {/* open source */}
         <section id="open-source" className="scroll-mt-28 py-20">
-          <SectionHeading kicker="In Progress" title="What I'm shipping next" icon={Wrench} />
+          <SectionHeading kicker="Open Source" title="Open source work" icon={GitPullRequest} />
+
           <Reveal>
-            <div className="relative overflow-hidden rounded-3xl border border-emerald-400/20 bg-gradient-to-br from-emerald-400/[0.07] via-panel to-sky-400/[0.05] p-8 sm:p-10">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {openSource.map((p) => (
+                <motion.a
+                  key={p.name}
+                  href={p.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  whileHover={{ y: -4 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+                  className="group flex flex-col rounded-2xl border border-line bg-panel p-6 transition hover:border-emerald-400/40"
+                >
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-lg font-bold text-slate-100">{p.name}</h4>
+                    <ArrowUpRight
+                      size={15}
+                      className="text-slate-600 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-emerald-300"
+                    />
+                  </div>
+                  <p className="mt-1 font-mono text-xs tracking-wide text-slate-500">{p.tag}</p>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-400">{p.summary}</p>
+                  <span className="mt-4 inline-flex items-center gap-1.5 font-mono text-xs text-emerald-300">
+                    <GitBranch size={13} /> View on GitHub
+                  </span>
+                </motion.a>
+              ))}
+            </div>
+          </Reveal>
+
+          {/* what I'm shipping next */}
+          <Reveal className="mt-16">
+            <div className="mb-6 flex items-center gap-2 font-mono text-xs tracking-[0.25em] text-slate-500 uppercase">
+              <Wrench size={14} className="text-emerald-400" />
+              What I&rsquo;m shipping next
+            </div>
+
+            <div className="relative overflow-hidden rounded-3xl border border-emerald-400/20 bg-gradient-to-br from-[#041f16] via-panel to-[#06182a] p-8 sm:p-10">
               <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <div className="flex items-center gap-3">
                     <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-300 to-sky-400 text-slate-950">
-                      <Layers size={18} />
+                      <Wallet size={18} />
                     </span>
                     <div>
-                      <h3 className="text-2xl font-bold text-slate-100">Balancer V3 Router</h3>
+                      <h3 className="text-2xl font-bold text-slate-100">Account Abstraction Wallet</h3>
                       <p className="font-mono text-xs tracking-wide text-slate-500">Active development · Open source</p>
                     </div>
                   </div>
                   <p className="mt-5 max-w-2xl leading-relaxed text-slate-400">
-                    Currently working on adding a router to Balancer V3 — extending the
-                    protocol’s swap-routing layer and going deep on its vault-centric
-                    architecture along the way.
+                    An account abstraction wallet turns your crypto account into a programmable
+                    smart contract. Instead of relying on a single private key or seed phrase
+                    where losing it means losing everything, it allows custom rules like social
+                    recovery, gas fee payments in stablecoins, transaction batching, and passkey
+                    logins.
                   </p>
                 </div>
                 <div className="flex items-center gap-2 self-start rounded-full border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 font-mono text-xs text-emerald-300 sm:self-center">
@@ -442,24 +639,6 @@ export default function App() {
               </div>
             </div>
           </Reveal>
-
-          <div className="mt-8 grid gap-6 sm:grid-cols-2">
-            {earlierProjects.map((p, i) => (
-              <Reveal key={p.name} delay={0.08 * i}>
-                <motion.div
-                  whileHover={{ y: -4 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-                  className="overflow-hidden rounded-2xl border border-line bg-panel/80"
-                >
-                  <img src={p.image} alt={p.name} loading="lazy" className="h-44 w-full object-cover" />
-                  <div className="p-6">
-                    <h4 className="text-lg font-bold text-slate-100">{p.name}</h4>
-                    <p className="mt-2 text-sm leading-relaxed text-slate-400">{p.summary}</p>
-                  </div>
-                </motion.div>
-              </Reveal>
-            ))}
-          </div>
         </section>
 
         {/* about */}
@@ -467,7 +646,7 @@ export default function App() {
           <SectionHeading kicker="About" title="Builder first, student always" icon={Cpu} />
           <div className="grid gap-8 lg:grid-cols-5">
             <Reveal className="lg:col-span-3">
-              <div className="h-full rounded-3xl border border-line bg-panel/80 p-8 sm:p-10">
+              <div className="h-full rounded-3xl border border-line bg-panel p-8 sm:p-10">
                 <p className="leading-relaxed text-slate-400">
                   I’m a sophomore at <span className="font-semibold text-slate-200">IIT Roorkee</span>,
                   spending most of my time inside the design space of modern DeFi systems —
@@ -493,7 +672,7 @@ export default function App() {
                 ].map(({ icon: Icon, big, small }) => (
                   <div
                     key={big}
-                    className="flex items-center gap-4 rounded-2xl border border-line bg-panel/80 px-6 py-5"
+                    className="flex items-center gap-4 rounded-2xl border border-line bg-panel px-6 py-5"
                   >
                     <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-emerald-400/25 bg-emerald-400/10 text-emerald-300">
                       <Icon size={18} />
@@ -513,7 +692,7 @@ export default function App() {
         <section id="contact" className="scroll-mt-28 py-20 pb-28">
           <SectionHeading kicker="Contact" title="Let's build something on-chain" icon={Send} />
           <Reveal>
-            <div className="rounded-3xl border border-line bg-panel/80 p-8 sm:p-10">
+            <div className="rounded-3xl border border-line bg-panel p-8 sm:p-10">
               <p className="max-w-2xl leading-relaxed text-slate-400">
                 Open to protocol engineering collaborations, open-source work and hackathon
                 teams. The fastest ways to reach me:
