@@ -445,7 +445,7 @@ export default function App() {
         {/* selected work */}
         <section id="work" className="scroll-mt-28 py-20">
           <Reveal className="mb-12">
-            <h3 className="mb-4 text-lg font-semibold tracking-tight text-slate-200">
+            <h3 className="mb-4 text-2xl font-bold tracking-tight text-slate-100">
               Building alongside
             </h3>
             <div className="grid gap-4 sm:grid-cols-2 mb-6">
