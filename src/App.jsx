@@ -188,19 +188,14 @@ const openSource = [
     repo: 'https://github.com/Yash-arch-ui/puddleswap',
     summary:
       'A static, no-backend DEX on Monad testnet, live at app.puddleswap.org. It solves the problem of builders needing stablecoins and token swaps on testnet without waiting for mainnet DEX deployments. Swapping works via star routing — core tokens (USDC, USDT, WMON) act as intermediaries, and for any swap A -> B the UI checks all possible paths (direct, 3-hop, 4-hop) in a single batched RPC call, so any token with a pool against at least one core token is tradeable against any other. The best quote wins; slippage is configurable and quotes refresh every 6 seconds. The frontend has zero backend dependencies — all data comes from RPC calls to Monad testnet, with wallet connection via injected providers like MetaMask and Rabby.',
-    points: [
-      'Pool creation deploys a new Uniswap V2 pair and adds the first liquidity in one flow; LPs can add or remove liquidity, with removal burning LP tokens and returning both underlying tokens proportionally',
-      'Onchain token registry lets the UI autocomplete tokens without a list in git — three trust tiers: Top Verified (USDC, USDT, WMON), Checkmark (vetted by a verifier), and Basic (anyone can register, 7-day cooldown, no custom images)',
-      'Automated Railway rebalancer keeps core pools (USDC/WMON, USDT/WMON) near target price — runs every 5 minutes with Discord alerts on low MON balance',
-      'Full Uniswap V2 stack deployed and verified on Monad testnet (chain ID 10143) — WMON, USDC, TestUSDT, StableFaucet, Factory, Router, TokenRegistry; all verified on MonadVision, Socialscan and Monadscan. Contracts in Foundry, frontend in Vite + React + TypeScript, deployed on Vercel',
-    ],
   },
   {
-    name: 'Morpho AI Liquidation Bot',
-    tag: 'Morpho Blue · Open Source',
-    href: 'https://github.com/morpho-org/morpho-blue-liquidation-bot',
+    name: 'NAD Agent',
+    tag: 'Local AI Agent · Tether QVAC + WDK · Monad',
+    href: 'https://github.com/portdeveloper/nad-agent/pull/58',
+    repo: 'https://github.com/portdeveloper/nad-agent/pull/58',
     summary:
-      'An easily configurable, RPC-based liquidation bot for Morpho Blue — detects liquidatable positions and executes liquidations, with multi-chain support and pluggable pricers for profit evaluation.',
+      "A 100% local AI agent with its own gasless, self-custodial wallet on Monad — powered end-to-end by Tether's stack (QVAC + WDK). No cloud, no API keys for the model, no gas for the user. You type in natural language, a model running on your machine decides what to do, you confirm, and the transaction settles on Monad — sponsored by a paymaster so the wallet pays zero gas.",
   },
   {
     name: 'Balancer V3 Router',
@@ -422,7 +417,7 @@ export default function App() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
               </span>
-              Open to work
+              Building
             </div>
           </motion.div>
           </div>
@@ -450,7 +445,7 @@ export default function App() {
         {/* selected work */}
         <section id="work" className="scroll-mt-28 py-20">
           <Reveal className="mb-12">
-            <h2 className="text-5xl font-bold tracking-tight text-slate-100 sm:text-6xl">
+            <h2 className="text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl">
               Selected Work
             </h2>
           </Reveal>
@@ -678,29 +673,21 @@ export default function App() {
             <Reveal className="lg:col-span-3">
               <div className="h-full rounded-3xl border border-line bg-panel p-8 sm:p-10">
                 <p className="leading-relaxed text-slate-400">
-                  I’m a sophomore at <span className="font-semibold text-slate-200">IIT Roorkee</span>, and
-                  I love to learn and explore the DeFi space. My interest sits at the protocol
-                  layer — studying the actual design space of decentralized finance rather than
-                  its surface: how AMM invariants shape liquidity and slippage, how lending
-                  markets manage collateral risk through interest rate models and liquidation
-                  engines, how derivatives venues price funding and how governance mechanisms
-                  survive adversarial conditions. I spend most of my time reading whitepapers,
-                  reference implementations and post-mortems, then rebuilding the ideas from
-                  first principles to understand where the assumptions break. What draws me to
-                  DeFi is that it is financial engineering in an environment where every
-                  participant is adversarial by default — the mechanisms that survive here are
-                  the ones worth understanding deeply.
+                  I’m a sophomore at <span className="font-semibold text-slate-200">IIT Roorkee</span>{' '}
+                  drawn to DeFi at the protocol layer — how AMM invariants shape liquidity and
+                  slippage, how lending markets manage collateral risk, and how governance
+                  mechanisms survive adversarial conditions. I spend most of my time reading
+                  whitepapers and post-mortems, then rebuilding the ideas from first principles to
+                  find where the assumptions break — because the mechanisms that survive an
+                  environment where every participant is adversarial by default are the ones worth
+                  understanding deeply.
                 </p>
                 <p className="mt-5 leading-relaxed text-slate-400">
                   Currently, I’m exploring <span className="font-semibold text-slate-200">blockchain infrastructure</span> —
-                  the layer beneath the applications: consensus and execution clients, node
-                  software and the P2P networking stack, EVM execution and state management,
-                  MEV supply chains, transaction mempools and propagation, account abstraction
-                  pipelines and cross-chain interoperability. I’m quite interested in learning
-                  how this infrastructure actually operates at scale — what the real performance
-                  constraints are, where decentralization and efficiency trade off against each
-                  other, and how protocol-level design decisions made at the infrastructure layer
-                  end up shaping everything that gets built on top of it.
+                  consensus and execution clients, the P2P networking stack, MEV supply chains,
+                  mempools, account abstraction and cross-chain interoperability: how this
+                  infrastructure operates at scale, where decentralization trades off against
+                  efficiency, and how its design decisions shape everything built on top.
                 </p>
                 <p className="mt-5 leading-relaxed text-slate-400">
                   Away from the terminal, I’ve qualified{' '}
