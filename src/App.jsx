@@ -437,7 +437,7 @@ export default function App() {
                 transition={{ type: 'spring', stiffness: 300, damping: 24 }}
                 className="group flex items-start gap-4 rounded-2xl border border-purple-400/20 bg-gradient-to-br from-purple-400/10 via-panel to-panel p-6 transition hover:border-purple-400/40"
               >
-                <img src="/SOLANA .svg" alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" />
+                <img src="/SOLANA .png" alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" />
                 <div>
                   <h4 className="text-base font-bold text-purple-300">#Solana Fall</h4>
                   <p className="mt-1.5 text-sm leading-relaxed text-slate-400">
