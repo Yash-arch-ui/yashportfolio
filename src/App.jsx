@@ -445,6 +445,24 @@ export default function App() {
         {/* selected work */}
         <section id="work" className="scroll-mt-28 py-20">
           <Reveal className="mb-12">
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              <motion.div
+                whileHover={{ scale: 1.05, y: -2 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                className="inline-flex items-center gap-2 rounded-full border border-purple-400/30 bg-purple-400/10 px-4 py-2 font-mono text-xs text-purple-300 cursor-default transition-colors hover:border-purple-400/60 hover:bg-purple-400/20"
+              >
+                <img src="/solana.svg" alt="" className="h-4 w-4 rounded-sm object-cover" />
+                #SOLANA FALL
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05, y: -2 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                className="inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-400/10 px-4 py-2 font-mono text-xs text-violet-300 cursor-default transition-colors hover:border-violet-400/60 hover:bg-violet-400/20"
+              >
+                <img src="/monad.svg" alt="" className="h-4 w-4 rounded-sm object-cover" />
+                #MOST
+              </motion.div>
+            </div>
             <h2 className="text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl">
               Selected Work
             </h2>
