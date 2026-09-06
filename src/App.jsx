@@ -445,22 +445,32 @@ export default function App() {
         {/* selected work */}
         <section id="work" className="scroll-mt-28 py-20">
           <Reveal className="mb-12">
-            <div className="flex flex-wrap items-center gap-3 mb-4">
+            <div className="grid gap-4 sm:grid-cols-2 mb-6">
               <motion.div
-                whileHover={{ scale: 1.05, y: -2 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className="inline-flex items-center gap-2 rounded-full border border-purple-400/30 bg-purple-400/10 px-4 py-2 font-mono text-xs text-purple-300 cursor-default transition-colors hover:border-purple-400/60 hover:bg-purple-400/20"
+                whileHover={{ y: -4 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+                className="group flex items-start gap-4 rounded-2xl border border-purple-400/20 bg-gradient-to-br from-purple-400/10 via-panel to-panel p-6 transition hover:border-purple-400/40"
               >
-                <img src="/solana.svg" alt="" className="h-4 w-4 rounded-sm object-cover" />
-                #SOLANA FALL
+                <img src="/solana.svg" alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" />
+                <div>
+                  <h4 className="text-base font-bold text-purple-300">#Solana Fall</h4>
+                  <p className="mt-1.5 text-sm leading-relaxed text-slate-400">
+                    Selected &amp; building in the Solana Fall class cohort.
+                  </p>
+                </div>
               </motion.div>
               <motion.div
-                whileHover={{ scale: 1.05, y: -2 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className="inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-400/10 px-4 py-2 font-mono text-xs text-violet-300 cursor-default transition-colors hover:border-violet-400/60 hover:bg-violet-400/20"
+                whileHover={{ y: -4 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+                className="group flex items-start gap-4 rounded-2xl border border-violet-400/20 bg-gradient-to-br from-violet-400/10 via-panel to-panel p-6 transition hover:border-violet-400/40"
               >
-                <img src="/monad.svg" alt="" className="h-4 w-4 rounded-sm object-cover" />
-                #MOST
+                <img src="/monad.svg" alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" />
+                <div>
+                  <h4 className="text-base font-bold text-violet-300">#MOST</h4>
+                  <p className="mt-1.5 text-sm leading-relaxed text-slate-400">
+                    Selected for Monad Open Source Program — maintaining their codebase and learning a lot alongside.
+                  </p>
+                </div>
               </motion.div>
             </div>
             <h2 className="text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl">
