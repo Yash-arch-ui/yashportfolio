@@ -80,23 +80,6 @@ const projects = [
     ],
   },
   {
-    name: 'Morpho Liquidation Bot',
-    tag: 'Open Source Contribution · Morpho Blue',
-    accent: 'from-blue-400 to-cyan-400',
-    icon: GitPullRequest,
-    images: [],
-    summary:
-      'Contributed to a simple, fast, and easily deployable liquidation bot for the Morpho Blue protocol. The bot is entirely RPC-based and designed to be easy to configure, customizable, and ready to deploy on any EVM-compatible chain.',
-    points: [
-      'Automatically detects liquidatable positions and executes liquidations',
-      'Multi-chain compatible with pluggable data providers, liquidity venues and pricers',
-      'Profit evaluation via configurable pricers',
-      'Minimal setup and dependencies — RPC-only, no extra infra required',
-    ],
-    stack: ['TypeScript', 'Morpho Blue', 'EVM', 'RPC', 'Liquidations'],
-    links: [{ label: 'GitHub', href: 'https://github.com/Yash-arch-ui/morpho-blue-liquidation-bot' }],
-  },
-  {
     name: 'HookShield',
     tag: 'Adaptive Risk-Weighted Fees · Uniswap V4',
     accent: 'from-amber-300 to-yellow-500',
@@ -454,7 +437,7 @@ export default function App() {
                 transition={{ type: 'spring', stiffness: 300, damping: 24 }}
                 className="group flex items-start gap-4 rounded-2xl border border-purple-400/20 bg-gradient-to-br from-purple-400/10 via-panel to-panel p-6 transition hover:border-purple-400/40"
               >
-                <img src="/solana.svg" alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" />
+                <img src="/SOLANA .svg" alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" />
                 <div>
                   <h4 className="text-base font-bold text-purple-300">#Solana Fall</h4>
                   <p className="mt-1.5 text-sm leading-relaxed text-slate-400">
@@ -467,7 +450,7 @@ export default function App() {
                 transition={{ type: 'spring', stiffness: 300, damping: 24 }}
                 className="group flex items-start gap-4 rounded-2xl border border-violet-400/20 bg-gradient-to-br from-violet-400/10 via-panel to-panel p-6 transition hover:border-violet-400/40"
               >
-                <img src="/monad.svg" alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" />
+                <img src="/MONAD .png" alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" />
                 <div>
                   <h4 className="text-base font-bold text-violet-300">#MOST</h4>
                   <p className="mt-1.5 text-sm leading-relaxed text-slate-400">
