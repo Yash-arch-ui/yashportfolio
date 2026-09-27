@@ -24,6 +24,7 @@ import {
   Terminal,
   CircleDot,
   Radar,
+  Landmark,
   BookOpenText,
   GitMerge,
   GitPullRequestClosed,
@@ -101,6 +102,7 @@ const projects = [
     tag: 'Transaction Intelligence · Monad',
     accent: 'from-violet-400 to-fuchsia-500',
     icon: Radar,
+    label: 'Work',
     images: ['/projects/vantage.png'],
     summary:
       'Vantage is a Monad-native transaction intelligence platform that combines deterministic pre-sign analysis, explainable AI, autonomous contract monitoring, and transparent trust scoring. It helps users make safer execution decisions through continuous monitoring, historical execution intelligence, and evidence-backed recommendations.',
@@ -134,6 +136,23 @@ const projects = [
       { label: 'Website', href: 'https://wraplayer.vercel.app/' },
       { label: 'GitHub', href: 'https://github.com/Yash-arch-ui/WRAPLAYER' },
     ],
+  },
+  {
+    name: 'BackStop Protocol',
+    tag: 'Permissionless Underwriting · Solana · Anchor',
+    accent: 'from-lime-400 to-emerald-500',
+    icon: Landmark,
+    images: [],
+    summary:
+      'A permissionless underwriting / backstop market for token fundraisers on Solana. When a fundraiser deadline passes and the target is not met, the campaign does not simply die. Instead, anyone can provide the missing capital during a 7-day underwriting phase, receive a bonding-curve-priced claim, and get repaid by the maker later.',
+    points: [
+      'Failed campaigns enter a 7-day underwriting phase instead of dying — anyone can backstop the shortfall',
+      'Underwriters receive bonding-curve-priced claims on the capital they provide, repaid later by the maker',
+      'Underwriting state fields appended Borsh-compatible to the on-chain Fundraiser account — no re-initialization',
+      'Built with Anchor 1.1.2 — PDAs, token vault ATAs and program error handling end to end',
+    ],
+    stack: ['Rust', 'Anchor', 'Solana', 'SPL Tokens'],
+    links: [{ label: 'GitHub', href: 'https://github.com/Yash-arch-ui/BackStop-Protocol' }],
   },
 ]
 
@@ -437,7 +456,7 @@ export default function App() {
             <h3 className="mb-4 text-2xl font-bold tracking-tight text-slate-100">
               Building alongside
             </h3>
-            <div className="grid gap-4 sm:grid-cols-2 mb-6">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-6">
               <motion.div
                 whileHover={{ y: -4 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 24 }}
@@ -464,6 +483,19 @@ export default function App() {
                   </p>
                 </div>
               </motion.div>
+              <motion.div
+                whileHover={{ y: -4 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+                className="group flex items-start gap-4 rounded-2xl border border-pink-400/20 bg-gradient-to-br from-pink-400/10 via-panel to-panel p-6 transition hover:border-pink-400/40 sm:col-span-2 lg:col-span-1"
+              >
+                <img src="/UHI.png" alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" />
+                <div>
+                  <h4 className="text-base font-bold text-pink-300">#Uniswap Hook Incubator</h4>
+                  <p className="mt-1.5 text-sm leading-relaxed text-slate-400">
+                    Selected for Uniswap Hook Incubator 11 — building v4 hooks alongside the cohort.
+                  </p>
+                </div>
+              </motion.div>
             </div>
             <h2 className="text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl">
               Selected Work
@@ -475,6 +507,12 @@ export default function App() {
               const Icon = project.icon
               return (
                 <Reveal key={project.name} delay={0.05 * i}>
+                  <div className="relative">
+                    {project.label && (
+                      <span className="absolute -top-3 right-4 z-10 rounded-full border border-emerald-400/40 bg-emerald-400/15 px-3 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-300 backdrop-blur">
+                        {project.label}
+                      </span>
+                    )}
                   <motion.article
                     whileHover={{ y: -4 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 24 }}
@@ -552,6 +590,7 @@ export default function App() {
                       )}
                     </div>
                   </motion.article>
+                  </div>
                 </Reveal>
               )
             })}
