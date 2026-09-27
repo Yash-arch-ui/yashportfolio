@@ -368,14 +368,6 @@ export default function App() {
               className="mt-8 max-w-4xl"
             />
 
-            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-slate-400">
-              I’m <span className="font-semibold text-slate-200">Yash Singh</span>, a sophomore at{' '}
-              <span className="font-semibold text-slate-200">IIT Roorkee</span> building DeFi
-              infrastructure — AMM design, liquidation systems, dynamic fee mechanisms and
-              confidential assets. My mission: build products that push DeFi towards becoming the
-              financial layer of the internet.
-            </p>
-
             <div className="mt-10 flex flex-wrap items-center gap-4">
               <a
                 href="#work"
