@@ -12,7 +12,7 @@ import {
   MessageCircle,
   Shield,
   Zap,
-  Layers,
+  Swords,
   GitPullRequest,
   Lock,
   Activity,
@@ -24,8 +24,10 @@ import {
   Terminal,
   CircleDot,
   Radar,
-  Ticket,
-  Wallet,
+  BookOpenText,
+  GitMerge,
+  GitPullRequestClosed,
+  CircleCheck,
 } from 'lucide-react'
 
 /* ---------------------------------- data ---------------------------------- */
@@ -40,6 +42,60 @@ const socials = [
 ]
 
 const projects = [
+  {
+    name: 'AvengeHook',
+    tag: 'On-chain MEV Protection · Uniswap V4',
+    accent: 'from-rose-400 to-red-500',
+    icon: Swords,
+    images: [],
+    summary:
+      'An on-chain MEV protection hook that fights back. When a swap executes far away from the oracle price, AvengeHook captures part of the arbitrage and donates it to liquidity providers — turning MEV extraction into LP revenue.',
+    points: [
+      'Reads Pyth prices with confidence intervals inside beforeSwap — stale or noisy oracles never trigger a capture',
+      "Triggers only when the pool sits outside Pyth's confidence band and deviates ≥ 2% from market price",
+      'Captures 70% of the opportunity (arbitrageur keeps 30%) and donates 80% of that to LPs via poolManager.donate()',
+      'Safety rails: capture capped at 50% of swap input, dynamic-fee override on arbs, fail-open on any oracle failure',
+      'Rust CLI (avenge-rs) handles deployment, Pyth keeper replays and real-time event monitoring',
+    ],
+    stack: ['Solidity', 'Uniswap V4', 'Pyth', 'Foundry', 'Rust'],
+    links: [{ label: 'GitHub', href: 'https://github.com/Yash-arch-ui/AvengeHook' }],
+  },
+  {
+    name: 'HookShield',
+    tag: 'Adaptive Risk-Weighted Fees · Uniswap V4',
+    accent: 'from-amber-300 to-yellow-500',
+    icon: Shield,
+    images: [],
+    summary:
+      'A Uniswap V4 hook that replaces a pool’s static fee tier with an adaptive, risk-weighted fee computed at execution time. Every swap is evaluated against a pipeline of on-chain signals — volatility, inventory skew, oracle divergence and whale activity — aggregated into a normalized risk score that maps to a fee tier. When markets get rough, LPs are compensated; when conditions are calm, traders pay less. Signals, risk model and fee policy are independent, replaceable contracts wired together at deployment, and a staleness fallback returns a conservative risk score if signals go outdated. Deployed live on Sepolia with fuzz-tested math.',
+    points: [
+      'Dynamic fee override on every swap — PoolManager charges exactly the computed fee via the v4 dynamic-fee flag',
+      'Modular pipeline: signals (EWMA volatility, inventory skew) → WeightedRiskModel → ThresholdPolicy fee tiers',
+      'EWMA volatility signal with Foundry fuzz tests proving the math; staleness protection against outdated signals',
+      'Deployed on Sepolia via CREATE2 permission-mining, with an owner-adjustable threshold/fee policy (0.30%–1.20% capped)',
+    ],
+    stack: ['Solidity', 'Uniswap V4', 'Hooks', 'Foundry'],
+    links: [{ label: 'GitHub', href: 'https://github.com/Yash-arch-ui/HookShield' }],
+  },
+  {
+    name: 'GhostBundler',
+    tag: 'Account Abstraction Security · ERC-4337 / ERC-6900',
+    accent: 'from-indigo-400 to-violet-500',
+    icon: Shield,
+    images: [],
+    summary:
+      'An adversarial Rust preflight and sponsorship firewall for ERC-4337 UserOperations sent by ERC-6900 modular accounts. It sits in front of an ERC-4337 bundler and inspects each incoming UserOperation before it reaches the EntryPoint — decoding the call path, building a directed authority graph of which validator authorizes which selector targeting which contract, running policy rules against that graph, and simulating the operation against a local Anvil node. Only if both the policy check and simulation pass does it issue a cryptographic Risk Permit (ECDSA-signed, onchain-verifiable via a validation hook and permit-gated paymaster). Its core detection is the ERC-6900 privilege-amplification trap: a validator marked isGlobal is a master keycard, a selector with allowGlobalValidation is a door that accepts master keycards — and when the two combine, a session key installed to approve token transfers can drain a vault holding unrelated assets. GhostBundler catches exactly this class of unintended authorization before the operation ever hits chain.',
+    points: [
+      'Detects ERC-6900 privilege amplification — isGlobal validators reaching selectors they were never scoped to',
+      'Builds a directed authority graph (validators → selectors → targets) and runs 3 policy rules: privilege amplification, validation applicability violations, missing execution hooks',
+      'Simulates each UserOperation via eth_call + gas estimation against Anvil, classifying reverts as AccountError (AA1/AA2), PaymasterError (AA3) or Unknown',
+      'Issues ECDSA-signed, onchain-verifiable Risk Permits binding userOpHash, chainId, policyRoot and validity window — verified on-chain by RiskGate and a permit-gated VerifyingPaymaster',
+      'Full workspace tested — 26 Rust tests (aa-types, policy, sim, permit, ghostd) and 24 Foundry tests (EntryPoint, RiskGate, VerifyingPaymaster deployments)',
+      'Written in Rust (axum, alloy, petgraph, k256) with vendored ERC-6900 reference implementation and eth-infinitism EntryPoint',
+    ],
+    stack: ['Rust', 'Solidity', 'ERC-4337', 'ERC-6900', 'Foundry', 'Alloy'],
+    links: [{ label: 'GitHub', href: 'https://github.com/Yash-arch-ui/GhostBundler' }],
+  },
   {
     name: 'Vantage',
     tag: 'Transaction Intelligence · Monad',
@@ -79,88 +135,6 @@ const projects = [
       { label: 'GitHub', href: 'https://github.com/Yash-arch-ui/WRAPLAYER' },
     ],
   },
-  {
-    name: 'HookShield',
-    tag: 'Adaptive Risk-Weighted Fees · Uniswap V4',
-    accent: 'from-amber-300 to-yellow-500',
-    icon: Shield,
-    images: [],
-    summary:
-      'A Uniswap V4 hook that replaces a pool’s static fee tier with an adaptive, risk-weighted fee computed at execution time. Every swap is evaluated against a pipeline of on-chain signals — volatility, inventory skew, oracle divergence and whale activity — aggregated into a normalized risk score that maps to a fee tier. When markets get rough, LPs are compensated; when conditions are calm, traders pay less. Signals, risk model and fee policy are independent, replaceable contracts wired together at deployment, and a staleness fallback returns a conservative risk score if signals go outdated. Deployed live on Sepolia with fuzz-tested math.',
-    points: [
-      'Dynamic fee override on every swap — PoolManager charges exactly the computed fee via the v4 dynamic-fee flag',
-      'Modular pipeline: signals (EWMA volatility, inventory skew) → WeightedRiskModel → ThresholdPolicy fee tiers',
-      'EWMA volatility signal with Foundry fuzz tests proving the math; staleness protection against outdated signals',
-      'Deployed on Sepolia via CREATE2 permission-mining, with an owner-adjustable threshold/fee policy (0.30%–1.20% capped)',
-    ],
-    stack: ['Solidity', 'Uniswap V4', 'Hooks', 'Foundry'],
-    links: [{ label: 'GitHub', href: 'https://github.com/Yash-arch-ui/HookShield' }],
-  },
-  {
-    name: 'Balancer V3 Router',
-    tag: 'Router Implementation · Balancer V3',
-    accent: 'from-emerald-400 to-sky-400',
-    icon: Layers,
-    images: [],
-    summary:
-      'A router for Balancer V3 — extending the protocol’s swap-routing layer and going deep on its vault-centric architecture.',
-    points: [
-      'Extends the protocol’s swap-routing layer',
-      'Built around Balancer V3’s vault-centric architecture',
-    ],
-    stack: ['Solidity', 'Balancer V3', 'Foundry'],
-    links: [{ label: 'GitHub', href: 'https://github.com/Yash-arch-ui/balancer-v3-monorepo' }],
-  },
-  {
-    name: 'GhostBundler',
-    tag: 'Account Abstraction Security · ERC-4337 / ERC-6900',
-    accent: 'from-indigo-400 to-violet-500',
-    icon: Shield,
-    images: [],
-    summary:
-      'An adversarial Rust preflight and sponsorship firewall for ERC-4337 UserOperations sent by ERC-6900 modular accounts. It sits in front of an ERC-4337 bundler and inspects each incoming UserOperation before it reaches the EntryPoint — decoding the call path, building a directed authority graph of which validator authorizes which selector targeting which contract, running policy rules against that graph, and simulating the operation against a local Anvil node. Only if both the policy check and simulation pass does it issue a cryptographic Risk Permit (ECDSA-signed, onchain-verifiable via a validation hook and permit-gated paymaster). Its core detection is the ERC-6900 privilege-amplification trap: a validator marked isGlobal is a master keycard, a selector with allowGlobalValidation is a door that accepts master keycards — and when the two combine, a session key installed to approve token transfers can drain a vault holding unrelated assets. GhostBundler catches exactly this class of unintended authorization before the operation ever hits chain.',
-    points: [
-      'Detects ERC-6900 privilege amplification — isGlobal validators reaching selectors they were never scoped to',
-      'Builds a directed authority graph (validators → selectors → targets) and runs 3 policy rules: privilege amplification, validation applicability violations, missing execution hooks',
-      'Simulates each UserOperation via eth_call + gas estimation against Anvil, classifying reverts as AccountError (AA1/AA2), PaymasterError (AA3) or Unknown',
-      'Issues ECDSA-signed, onchain-verifiable Risk Permits binding userOpHash, chainId, policyRoot and validity window — verified on-chain by RiskGate and a permit-gated VerifyingPaymaster',
-      'Full workspace tested — 26 Rust tests (aa-types, policy, sim, permit, ghostd) and 24 Foundry tests (EntryPoint, RiskGate, VerifyingPaymaster deployments)',
-      'Written in Rust (axum, alloy, petgraph, k256) with vendored ERC-6900 reference implementation and eth-infinitism EntryPoint',
-    ],
-    stack: ['Rust', 'Solidity', 'ERC-4337', 'ERC-6900', 'Foundry', 'Alloy'],
-    links: [{ label: 'GitHub', href: 'https://github.com/Yash-arch-ui/GhostBundler' }],
-  },
-  {
-    name: 'DiviSafe',
-    tag: 'Dividend Governance · EVM',
-    accent: 'from-teal-400 to-cyan-500',
-    icon: Shield,
-    images: [],
-    summary:
-      'A decentralized dividend-governance and risk-mitigation platform protecting investors from dividend traps, payout manipulation and opaque corporate practices.',
-    points: [
-      'Protects investors from dividend traps and payout manipulation',
-      'Mitigates risk from opaque corporate practices',
-    ],
-    stack: ['Solidity', 'Ethereum'],
-    links: [{ label: 'GitHub', href: 'https://github.com/Yash-arch-ui/DiviSafe' }],
-  },
-  {
-    name: 'SeatSwap',
-    tag: 'Web3 Ticketing · Ethereum',
-    accent: 'from-amber-400 to-orange-500',
-    icon: Ticket,
-    images: [],
-    summary:
-      'A Web3 ticketing protocol on Ethereum enabling secure ticket issuance, peer-to-peer resale and on-chain verification using NFTs.',
-    points: [
-      'Secure ticket issuance on-chain',
-      'Peer-to-peer resale of tickets',
-      'On-chain verification using NFTs',
-    ],
-    stack: ['Solidity', 'Ethereum', 'NFTs'],
-    links: [{ label: 'GitHub', href: 'https://github.com/Yash-arch-ui/SeatSwap' }],
-  },
 ]
 
 const openSource = [
@@ -168,35 +142,67 @@ const openSource = [
     name: 'PuddleSwap',
     tag: 'Static No-Backend DEX · Monad Testnet',
     href: 'https://app.puddleswap.org',
-    repo: 'https://github.com/Yash-arch-ui/puddleswap',
+    repo: 'https://github.com/portdeveloper/puddleswap',
     summary:
       'A static, no-backend DEX on Monad testnet, live at app.puddleswap.org. It solves the problem of builders needing stablecoins and token swaps on testnet without waiting for mainnet DEX deployments. Swapping works via star routing — core tokens (USDC, USDT, WMON) act as intermediaries, and for any swap A -> B the UI checks all possible paths (direct, 3-hop, 4-hop) in a single batched RPC call, so any token with a pool against at least one core token is tradeable against any other. The best quote wins; slippage is configurable and quotes refresh every 6 seconds. The frontend has zero backend dependencies — all data comes from RPC calls to Monad testnet, with wallet connection via injected providers like MetaMask and Rabby.',
+    contribs: [
+      { kind: 'PR', num: 31, title: 'Block native MON swaps until balance & gas estimate check out', href: 'https://github.com/portdeveloper/puddleswap/pull/31', icon: GitMerge, tone: 'text-violet-300' },
+      { kind: 'PR', num: 30, title: 'Fix SeedCorePools: mint seed USDT to broadcaster so LP_OWNER can differ', href: 'https://github.com/portdeveloper/puddleswap/pull/30', icon: GitMerge, tone: 'text-violet-300' },
+      { kind: 'PR', num: 23, title: 'Unlimited approval toggle for repeat swappers', href: 'https://github.com/portdeveloper/puddleswap/pull/23', icon: GitMerge, tone: 'text-violet-300' },
+      { kind: 'Issue', num: 27, title: 'CI compiles unpinned dependency HEAD and runs with ffi = true', href: 'https://github.com/portdeveloper/puddleswap/issues/27', icon: CircleCheck, tone: 'text-emerald-300' },
+      { kind: 'Issue', num: 26, title: 'Full-balance native MON swap builds a tx that cannot pay gas', href: 'https://github.com/portdeveloper/puddleswap/issues/26', icon: CircleCheck, tone: 'text-emerald-300' },
+      { kind: 'Issue', num: 25, title: 'SeedCorePools mints USDT to LP_OWNER but spends from the broadcaster', href: 'https://github.com/portdeveloper/puddleswap/issues/25', icon: CircleCheck, tone: 'text-emerald-300' },
+    ],
   },
   {
     name: 'NAD Agent',
     tag: 'Local AI Agent · Tether QVAC + WDK · Monad',
-    href: 'https://github.com/portdeveloper/nad-agent/pull/58',
-    repo: 'https://github.com/portdeveloper/nad-agent/pull/58',
+    repo: 'https://github.com/portdeveloper/nad-agent',
     summary:
       "A 100% local AI agent with its own gasless, self-custodial wallet on Monad — powered end-to-end by Tether's stack (QVAC + WDK). No cloud, no API keys for the model, no gas for the user. You type in natural language, a model running on your machine decides what to do, you confirm, and the transaction settles on Monad — sponsored by a paymaster so the wallet pays zero gas.",
+    contribs: [
+      { kind: 'PR', num: 58, title: 'Added get_nfts (read owned NFTs) and an ERC-721 transfer action', href: 'https://github.com/portdeveloper/nad-agent/pull/58', icon: GitMerge, tone: 'text-violet-300' },
+    ],
   },
   {
     name: 'Balancer V3 Router',
     tag: 'Balancer V3 · Open Source',
-    href: 'https://github.com/balancer/balancer-v3-monorepo',
+    repo: 'https://github.com/balancer/balancer-v3-monorepo',
     summary:
       'Open source work on the Balancer V3 monorepo — extending the protocol’s swap-routing layer and going deep on its vault-centric architecture.',
   },
   {
     name: 'Plexus',
-    tag: 'BlocSoc IITR · Open Source',
-    href: 'https://github.com/BlocSoc-iitr/Plexus',
+    tag: 'BlocSoc IITR · EIP-7928 Block Access Lists',
+    repo: 'https://github.com/BlocSoc-iitr/Plexus',
     summary:
-      'Open source contribution to Plexus, a BlocSoc IITR project in active development.',
+      'Contributor to Plexus — BlocSoc IITR’s pipeline for EIP-7928 block access lists: transaction dependency graphs, parallel-execution scheduling and block-level read analytics. Built most of the dep-graph crate from scaffold to analytics — 7 PRs merged, 1 open.',
+    contribs: [
+      { kind: 'PR', num: 63, title: 'Block-level read analytics module', href: 'https://github.com/BlocSoc-iitr/Plexus/pull/63', icon: CircleDot, tone: 'text-emerald-400' },
+      { kind: 'PR', num: 62, title: 'BAL read analytics (superseded by #63)', href: 'https://github.com/BlocSoc-iitr/Plexus/pull/62', icon: GitPullRequestClosed, tone: 'text-slate-500' },
+      { kind: 'PR', num: 60, title: 'Track cancelled trace-fetch tasks in TraceFetchSummary', href: 'https://github.com/BlocSoc-iitr/Plexus/pull/60', icon: GitMerge, tone: 'text-violet-300' },
+      { kind: 'PR', num: 58, title: 'Expose RpcClient::with_config as a public constructor', href: 'https://github.com/BlocSoc-iitr/Plexus/pull/58', icon: GitMerge, tone: 'text-violet-300' },
+      { kind: 'PR', num: 53, title: 'Optimize EIP-7928 BAL memory allocation with Arc', href: 'https://github.com/BlocSoc-iitr/Plexus/pull/53', icon: GitMerge, tone: 'text-violet-300' },
+      { kind: 'PR', num: 46, title: 'Critical path & Greedy/OLS scheduling strategies', href: 'https://github.com/BlocSoc-iitr/Plexus/pull/46', icon: GitMerge, tone: 'text-violet-300' },
+      { kind: 'PR', num: 42, title: 'BlockMetrics + compute_metrics() parallelism stats', href: 'https://github.com/BlocSoc-iitr/Plexus/pull/42', icon: GitMerge, tone: 'text-violet-300' },
+      { kind: 'PR', num: 34, title: 'Dependency graph builder — WAW / RAW / WAR edges', href: 'https://github.com/BlocSoc-iitr/Plexus/pull/34', icon: GitMerge, tone: 'text-violet-300' },
+      { kind: 'PR', num: 25, title: 'Scaffold dep-graph crate & DepGraph wrapper', href: 'https://github.com/BlocSoc-iitr/Plexus/pull/25', icon: GitMerge, tone: 'text-violet-300' },
+    ],
+  },
+  {
+    name: 'Monad-Monitor',
+    tag: 'Rust · Node Monitoring · Open Source',
+    repo: 'https://github.com/portdeveloper/monad-monitor',
+    summary:
+      'A Rust tool that monitors Monad nodes over JSON-RPC — head progression, gas prices, block details and tx throughput in real time. I opened an issue to replace the hand-rolled JSON-RPC hex parsing and request-id matching with alloy primitives, then implemented the fix in an open PR.',
+    contribs: [
+      { kind: 'Issue', num: 51, title: 'Replace hand-rolled JSON-RPC parsing & request matching with alloy', href: 'https://github.com/portdeveloper/monad-monitor/issues/51', icon: CircleDot, tone: 'text-emerald-400' },
+      { kind: 'PR', num: 52, title: 'Use alloy types for RPC hex parsing and request matching', href: 'https://github.com/portdeveloper/monad-monitor/pull/52', icon: CircleDot, tone: 'text-emerald-400' },
+    ],
   },
 ]
 
-const protocols = ['Uniswap V4', 'Balancer V3', 'Aave', 'Curve', 'Zama FHEVM', 'Sui']
+const protocols = ['Ethereum', 'Solana', 'Uniswap V4', 'Balancer V3', 'Curve', 'Zama FHEVM', 'Sui']
 
 /* -------------------------------- primitives ------------------------------- */
 
@@ -413,7 +419,7 @@ export default function App() {
             className="mt-20 border-t border-line pt-8"
           >
             <p className="font-mono text-xs tracking-[0.25em] text-slate-500 uppercase">
-              Ecosystems I build with
+              The ecosystems &amp; protocols I build with
             </p>
             <div className="mt-5 flex flex-wrap gap-x-10 gap-y-3 font-mono text-sm text-slate-400">
               {protocols.map((p) => (
@@ -562,18 +568,18 @@ export default function App() {
                     <Cpu size={18} />
                   </span>
                   <div>
-                    <h3 className="text-2xl font-bold text-slate-100">Protocol Implementations</h3>
+                    <h3 className="text-2xl font-bold text-slate-100">Protocols I&rsquo;ve read</h3>
                     <p className="font-mono text-xs tracking-wide text-slate-500">
-                      Rebuilding core DeFi from first principles
+                      whitepapers, highlighters &amp; margin notes
                     </p>
                   </div>
                 </div>
 
                 <p className="mt-6 max-w-3xl leading-relaxed text-slate-400">
-                  I&rsquo;ve built working implementation versions of the protocols that define
-                  DeFi — reconstructing their core mechanisms from the whitepapers up to deeply
-                  understand invariants, edge cases and design trade-offs. Currently iterating on
-                  improvements to each of them.
+                  I&rsquo;ve read through these — traced the core mechanisms, filled a notebook
+                  with questions, and can explain the main ideas without opening the whitepaper
+                  again. Not claiming mastery; a decent enough idea and an honest map of what&rsquo;s
+                  still left to dig into.
                 </p>
 
                 <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -597,7 +603,7 @@ export default function App() {
                 </div>
 
                 <div className="mt-7 inline-flex items-center gap-2 rounded-full border border-violet-400/25 bg-violet-400/10 px-4 py-1.5 font-mono text-xs text-violet-300">
-                  <Sparkles size={13} /> actively working on improvements to each
+                  <Sparkles size={13} /> still reading — margin notes in progress
                 </div>
               </motion.article>
             </Reveal>
@@ -611,38 +617,62 @@ export default function App() {
           <Reveal>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {openSource.map((p) => (
-                <motion.a
+                <motion.div
                   key={p.name}
-                  href={p.repo || p.href}
-                  target="_blank"
-                  rel="noreferrer"
                   whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 300, damping: 24 }}
                   className="group flex flex-col rounded-2xl border border-line bg-panel p-6 transition hover:border-emerald-400/40"
                 >
                   <div className="flex items-center justify-between">
-                    <h4 className="text-lg font-bold text-slate-100">{p.name}</h4>
-                    <ArrowUpRight
-                      size={15}
-                      className="text-slate-600 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-emerald-300"
-                    />
+                    <a
+                      href={p.repo || p.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-lg font-bold text-slate-100 transition hover:text-emerald-300"
+                    >
+                      {p.name}
+                    </a>
+                    <a
+                      href={p.href || p.repo}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={p.href ? `Open ${p.name}` : `${p.name} on GitHub`}
+                    >
+                      <ArrowUpRight
+                        size={15}
+                        className="text-slate-600 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-emerald-300"
+                      />
+                    </a>
                   </div>
                   <p className="mt-1 font-mono text-xs tracking-wide text-slate-500">{p.tag}</p>
                   <p className="mt-3 text-sm leading-relaxed text-slate-400">{p.summary}</p>
-                  {p.points?.length > 0 && (
-                    <ul className="mt-4 space-y-2">
-                      {p.points.map((pt) => (
-                        <li key={pt} className="flex items-start gap-2.5 text-sm text-slate-300">
-                          <Zap size={13} className="mt-1 shrink-0 text-emerald-400" />
-                          {pt}
-                        </li>
-                      ))}
-                    </ul>
+                  {p.contribs?.length > 0 && (
+                    <div className="mt-5">
+                      <div className="mb-2 font-mono text-[11px] tracking-[0.2em] text-slate-500 uppercase">
+                        PRs &amp; issues
+                      </div>
+                      <div className="space-y-2">
+                        {p.contribs.map(({ kind, num, title, href, icon: CIcon, tone }) => (
+                          <a
+                            key={href}
+                            href={href}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex items-start gap-2 rounded-xl border border-line bg-ink px-3 py-2 text-xs leading-relaxed text-slate-300 transition hover:border-emerald-400/40 hover:text-slate-100"
+                          >
+                            <CIcon size={13} className={`mt-0.5 shrink-0 ${tone}`} />
+                            <span>
+                              <span className="font-mono text-slate-500">{kind} #{num}</span> · {title}
+                            </span>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
                   )}
                   <span className="mt-auto inline-flex items-center gap-1.5 pt-4 font-mono text-xs text-emerald-300">
                     <GitBranch size={13} /> View on GitHub
                   </span>
-                </motion.a>
+                </motion.div>
               ))}
             </div>
           </Reveal>
@@ -659,21 +689,22 @@ export default function App() {
                 <div>
                   <div className="flex items-center gap-3">
                     <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-300 to-sky-400 text-slate-950">
-                      <Wallet size={18} />
+                      <BookOpenText size={18} />
                     </span>
                     <div>
-                      <h3 className="text-2xl font-bold text-slate-100">Multi-Chain Account Abstraction Wallet</h3>
-                      <p className="font-mono text-xs tracking-wide text-slate-500">Active development · Open source</p>
+                      <h3 className="text-2xl font-bold text-slate-100">Open DeFi × RWA</h3>
+                      <p className="font-mono text-xs tracking-wide text-slate-500">Research phase · papers → protocol · open source</p>
                     </div>
                   </div>
                   <p className="mt-5 max-w-2xl leading-relaxed text-slate-400">
-                    Building a multi-chain account abstraction wallet utilizing ERC-4337 to enable
-                    gasless transactions and seamless cross-chain asset management across EVM
-                    networks.
+                    Reading my way through DeFi and RWA research papers — tokenization standards,
+                    on-chain collateral, and how real-world yield actually settles on-chain. The
+                    plan: take what the papers get right, find where they leave gaps, and build
+                    something open source that bridges open DeFi with tokenized real-world assets.
                   </p>
                 </div>
                 <div className="flex items-center gap-2 self-start rounded-full border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 font-mono text-xs text-emerald-300 sm:self-center">
-                  <Sparkles size={14} /> work in progress
+                  <Sparkles size={14} /> reading &amp; researching
                 </div>
               </div>
             </div>
@@ -687,25 +718,36 @@ export default function App() {
             <Reveal className="lg:col-span-3">
               <div className="h-full rounded-3xl border border-line bg-panel p-8 sm:p-10">
                 <p className="leading-relaxed text-slate-400">
-                  I’m a sophomore at <span className="font-semibold text-slate-200">IIT Roorkee</span>{' '}
-                  drawn to DeFi at the protocol layer — how AMM invariants shape liquidity and
-                  slippage, how lending markets manage collateral risk, and how governance
-                  mechanisms survive adversarial conditions. I spend most of my time reading
-                  whitepapers and post-mortems, then rebuilding the ideas from first principles to
-                  find where the assumptions break — because the mechanisms that survive an
-                  environment where every participant is adversarial by default are the ones worth
-                  understanding deeply.
+                  I’m a sophomore at <span className="font-semibold text-slate-200">IIT Roorkee</span> and
+                  DeFi is where my head lives — how AMM invariants shape liquidity and slippage, how
+                  lending markets price collateral risk, and how governance mechanisms hold up when
+                  every participant is adversarial by default. I read whitepapers and post-mortems,
+                  then rebuild the ideas from first principles to find where the assumptions break.
                 </p>
                 <p className="mt-5 leading-relaxed text-slate-400">
-                  Currently, I’m exploring <span className="font-semibold text-slate-200">blockchain infrastructure</span> —
-                  consensus and execution clients, the P2P networking stack, MEV supply chains,
-                  mempools, account abstraction and cross-chain interoperability: how this
-                  infrastructure operates at scale, where decentralization trades off against
-                  efficiency, and how its design decisions shape everything built on top.
+                  Lately that’s grown into working through{' '}
+                  <span className="font-semibold text-slate-200">DeFi research papers</span> — not
+                  just for the designs, but to hunt for the{' '}
+                  <span className="font-semibold text-slate-200">loops and flaws</span> in the
+                  space: yield that recycles its own emissions, oracle assumptions that only hold in
+                  calm markets, incentive loops that work on paper and die on-chain. A mechanism
+                  tells you the most at the exact point where it stops working — that’s the part I
+                  want to find.
+                </p>
+                <p className="mt-5 leading-relaxed text-slate-400">
+                  Alongside that, two areas I&rsquo;m actively learning:{' '}
+                  <span className="font-semibold text-slate-200">protocol infrastructure</span> —
+                  the layer underneath everything I build: mempools, MEV supply chains, execution
+                  clients and cross-chain messaging — the plumbing that decides what’s even possible
+                  at the application layer. And{' '}
+                  <span className="font-semibold text-slate-200">RWA</span> — how real-world assets
+                  actually get on-chain: tokenization standards, legal wrappers, off-chain attestation
+                  and what it takes for open DeFi rails to carry value that exists outside the chain.
+                  Earlier in the journey than DeFi, but digging in every week.
                 </p>
                 <p className="mt-5 leading-relaxed text-slate-400">
                   Away from the terminal, I’ve qualified{' '}
-                  <span className="font-semibold text-slate-200">IOQM twice</span> with regional
+                  <span className="font-semibold text-slate-200">IOQM twice</span> with state
                   scores in the top 5% and represented my city at the{' '}
                   <span className="font-semibold text-slate-200">U-16 State Football Championship</span>.
                 </p>
@@ -714,7 +756,7 @@ export default function App() {
             <Reveal delay={0.1} className="lg:col-span-2">
               <div className="grid h-full grid-rows-3 gap-4">
                 {[
-                  { icon: Trophy, big: '2×', small: 'IOQM qualified · top 5% regional' },
+                  { icon: Trophy, big: '2×', small: 'IOQM qualified · top 5% state' },
                   { icon: GraduationCap, big: 'IIT Roorkee', small: 'Sophomore · engineering' },
                   { icon: Activity, big: 'U-16', small: 'State Football Championship' },
                 ].map(({ icon: Icon, big, small }) => (
