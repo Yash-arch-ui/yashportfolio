@@ -346,7 +346,7 @@ export default function App() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
               </span>
-              Currently building — an account abstraction wallet
+              Building
             </div>
 
             <MaskedHeading
