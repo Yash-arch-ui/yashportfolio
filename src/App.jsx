@@ -715,7 +715,17 @@ export default function App() {
                 <p className="leading-relaxed text-slate-400">
                   I’m a sophomore at <span className="font-semibold text-slate-200">IIT Roorkee</span>. After
                   reading DeFi protocols and building on them, my interest has grown into reading{' '}
-                  <span className="font-semibold text-slate-200">DeFi research papers</span>.
+                  <span className="font-semibold text-slate-200">DeFi research papers</span> — and I’ve
+                  started working through{' '}
+                  <a
+                    href="https://www.damnvulnerabledefi.xyz/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-semibold text-slate-200 underline decoration-emerald-400/40 underline-offset-4 transition hover:text-emerald-300"
+                  >
+                    Damn Vulnerable DeFi
+                  </a>{' '}
+                  challenges too.
                 </p>
                 <p className="mt-5 leading-relaxed text-slate-400">
                   Two interests growing alongside:{' '}
