@@ -687,7 +687,7 @@ export default function App() {
                       <BookOpenText size={18} />
                     </span>
                     <div>
-                      <h3 className="text-2xl font-bold text-slate-100">Open DeFi × RWA</h3>
+                      <h3 className="text-2xl font-bold text-slate-100">DeFi × RWA</h3>
                       <p className="font-mono text-xs tracking-wide text-slate-500">Research phase · papers → protocol · open source</p>
                     </div>
                   </div>
