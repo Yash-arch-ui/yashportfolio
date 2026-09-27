@@ -575,19 +575,14 @@ export default function App() {
                   </div>
                 </div>
 
-                <p className="mt-6 max-w-3xl leading-relaxed text-slate-400">
-                  I&rsquo;ve read through these — traced the core mechanisms, filled a notebook
-                  with questions, and can explain the main ideas without opening the whitepaper
-                  again. Not claiming mastery; a decent enough idea and an honest map of what&rsquo;s
-                  still left to dig into.
-                </p>
-
-                <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {[
                     { name: 'Uniswap V2', desc: 'Constant-product AMM — pairs, LP shares & TWAP oracles' },
                     { name: 'Uniswap V3', desc: 'Concentrated liquidity — ticks, ranges & fee accounting' },
-                    { name: 'Aave', desc: 'Pooled lending — interest rate models & liquidations' },
+                    { name: 'Uniswap V4', desc: 'Hooks, singleton PoolManager & flash accounting' },
                     { name: 'Curve StableSwap', desc: 'Hybrid invariant for low-slippage stable swaps' },
+                    { name: 'Balancer V2', desc: 'Vault-centric AMM — pooled custody & internal balances' },
+                    { name: 'Balancer V3', desc: 'Vault + routers — ERC-20 shares, boosted pools & protocol fees' },
                   ].map((impl) => (
                     <div
                       key={impl.name}
@@ -718,32 +713,23 @@ export default function App() {
             <Reveal className="lg:col-span-3">
               <div className="h-full rounded-3xl border border-line bg-panel p-8 sm:p-10">
                 <p className="leading-relaxed text-slate-400">
-                  I’m a sophomore at <span className="font-semibold text-slate-200">IIT Roorkee</span> and
-                  DeFi is where my head lives — how AMM invariants shape liquidity and slippage, how
-                  lending markets price collateral risk, and how governance mechanisms hold up when
-                  every participant is adversarial by default. I read whitepapers and post-mortems,
-                  then rebuild the ideas from first principles to find where the assumptions break.
+                  I’m a sophomore at <span className="font-semibold text-slate-200">IIT Roorkee</span>. After
+                  reading DeFi protocols and building on them, my interest has grown into reading{' '}
+                  <span className="font-semibold text-slate-200">DeFi research papers</span>.
                 </p>
                 <p className="mt-5 leading-relaxed text-slate-400">
-                  Lately that’s grown into working through{' '}
-                  <span className="font-semibold text-slate-200">DeFi research papers</span> — not
-                  just for the designs, but to hunt for the{' '}
-                  <span className="font-semibold text-slate-200">loops and flaws</span> in the
-                  space: yield that recycles its own emissions, oracle assumptions that only hold in
-                  calm markets, incentive loops that work on paper and die on-chain. A mechanism
-                  tells you the most at the exact point where it stops working — that’s the part I
-                  want to find.
-                </p>
-                <p className="mt-5 leading-relaxed text-slate-400">
-                  Alongside that, two areas I&rsquo;m actively learning:{' '}
-                  <span className="font-semibold text-slate-200">protocol infrastructure</span> —
-                  the layer underneath everything I build: mempools, MEV supply chains, execution
-                  clients and cross-chain messaging — the plumbing that decides what’s even possible
-                  at the application layer. And{' '}
-                  <span className="font-semibold text-slate-200">RWA</span> — how real-world assets
-                  actually get on-chain: tokenization standards, legal wrappers, off-chain attestation
-                  and what it takes for open DeFi rails to carry value that exists outside the chain.
-                  Earlier in the journey than DeFi, but digging in every week.
+                  Two interests growing alongside:{' '}
+                  <span className="font-semibold text-slate-200">tokenized assets</span> and{' '}
+                  <span className="font-semibold text-slate-200">protocol infrastructure</span> — which I
+                  started learning by contributing to{' '}
+                  <a
+                    href="https://github.com/BlocSoc-iitr/Plexus"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-semibold text-slate-200 underline decoration-emerald-400/40 underline-offset-4 transition hover:text-emerald-300"
+                  >
+                    Plexus
+                  </a>.
                 </p>
                 <p className="mt-5 leading-relaxed text-slate-400">
                   Away from the terminal, I’ve qualified{' '}
